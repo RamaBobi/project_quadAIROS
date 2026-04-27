@@ -1,0 +1,28 @@
+# --- Build Artifacts ---
+build/
+install/
+log/
+**/COLCON_IGNORE
+
+# --- ArduPilot SITL / Simulation Trash ---
+*.bin
+*.BIN
+*.tlog
+*.tlog.raw
+*.rlog
+*.pcap
+eeprom.bin
+lastlog.txt
+LASTLOG.TXT
+*.parm
+!config/params/*.parm  # Keep parms ONLY if they are in your config folder
+
+# --- System & IDE ---
+.vscode/
+.idea/
+.DS_Store
+__pycache__/
+*.pyc
+
+# --- Terrain & Data ---
+terrain/
