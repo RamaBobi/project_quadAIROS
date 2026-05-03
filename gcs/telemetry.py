@@ -12,7 +12,8 @@ class Telemetry:
         self.running = True
         
         # Setup CSV Logging for data extraction
-        self.log_file = Path(f"run/{drone_id}_telemetry.csv")
+        drone_int = int(drone_id.split('_')[1])
+        self.log_file = Path(f"run/agent_{drone_int}/{drone_id}_telemetry.csv")
         # Write headers if file doesn't exist
         if not self.log_file.exists():
             with open(self.log_file, mode='w', newline='') as f:

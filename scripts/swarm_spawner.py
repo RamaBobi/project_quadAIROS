@@ -92,8 +92,17 @@ class SwarmSpawner:
     def spawn_sitl(self, total_drones):
         full_env = os.environ.copy()
         for i in range(total_drones):
+
+            port = 14552 + (i*10)
+
             run_dir = self.PROJECT_ROOT / "run" / f"agent_{i}" 
             run_dir.mkdir(parents=True, exist_ok=True)
+
+
+            parm_file = run_dir / "dds_config.parm"
+            with open(parm_file, "w") as f:
+                f.write("DDS_ENABLE 1\n")
+                f.write(f"DDS_CLIENT_ID {i}\n")
 
             sitl_cmd = [
                 str(self.PROJECT_ROOT/"external/ardupilot/Tools/autotest/sim_vehicle.py"),
@@ -103,7 +112,8 @@ class SwarmSpawner:
                 "--sysid", str(i + 1),
                 "--model", "json",
                 "--no-rebuild",
-                "--console"
+                "--console",
+                f"--out=udp:127.0.0.1:{port}"
                 ]
             
             proc = subprocess.Popen(
@@ -120,7 +130,7 @@ class SwarmSpawner:
 if __name__ == '__main__':
     dim = {
             'M': 1,
-            'N': 2,
+            'N': 3,
             'D': 2.0
             }
     SwarmSpawner(dim)      
